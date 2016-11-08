@@ -21,8 +21,12 @@ public class ChatClient {
         // создаем читателя и писателя в сокет с дефолной кодировкой UTF-8
         socketReader = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
         socketWriter = new BufferedWriter(new OutputStreamWriter(s.getOutputStream(), "UTF-8"));
+
+        ///** исходный код
         // создаем читателя с консоли (от пользователя)
         userInput = new BufferedReader(new InputStreamReader(System.in));
+         //*/
+        //userInput = new BufferedReader(new InputStreamReader());
         new Thread(new Receiver()).start();// создаем и запускаем нить асинхронного чтения из сокета
     }
 
@@ -30,10 +34,13 @@ public class ChatClient {
      * метод, где происходит главный цикл чтения сообщений с консоли и отправки на сервер
      */
     public void run() {
-        System.out.println("Type phrase(s) (hit Enter to exit):");
+        /**это не нужно тут*/
+        //System.out.println("Type phrase(s) (hit Enter to exit):");
         while (true) {
             String userString = null;
             try {
+                /**здесь формируем данные о состоянии плашки пользователя*/
+                //только как?
                 userString = userInput.readLine(); // читаем строку от пользователя
             } catch (IOException ignored) {} // с консоли эксепшена не может быть в принципе, игнорируем
             //если что-то не так или пользователь просто нажал Enter...
@@ -42,6 +49,7 @@ public class ChatClient {
                 break; // до этого break мы не дойдем, но стоит он, чтобы компилятор не ругался
             } else { //...иначе...
                 try {
+                    /** сюда по идее нужно засунуть данные о состоянии игры */
                     socketWriter.write(userString); //пишем строку пользователя
                     socketWriter.write("\n"); //добавляем "новою строку", дабы readLine() сервера сработал
                     socketWriter.flush(); // отправляем

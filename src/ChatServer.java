@@ -112,12 +112,13 @@ public class ChatServer {
         public void run() {
             while (!s.isClosed()) { // пока сокет не закрыт...
                 String line = null;
+
                 try {
                     line = br.readLine(); // пробуем прочесть.
                 } catch (IOException e) {
                     close(); // если не получилось - закрываем сокет.
                 }
-
+                /** Пока что не требуется в связи с отсутствием чата в игре
                 if (line == null) { // если строка null - клиент отключился в штатном режиме.
                     close(); // то закрываем сокет
                 } else if ("shutdown".equals(line)) { // если поступила команда "погасить сервер", то...
@@ -129,10 +130,11 @@ public class ChatServer {
                         shutdownServer(); // а затем глушим сервер вызовом его метода shutdownServer().
                     }
                 } else { // иначе - банальная рассылка по списку сокет-процессоров
+                 */
                     for (SocketProcessor sp:q) {
                         sp.send(line);
                     }
-                }
+                //}
             }
         }
 
